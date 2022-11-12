@@ -12,8 +12,8 @@ namespace MineField.Model.Cells
         public SafeCell(MineFieldState field, int verticalPosition, int horizontalPosition)
             : base(field, verticalPosition, horizontalPosition) { Type = CellType.SAFE; }
 
-        public SafeCell(MineFieldState field, int verticalPosition, int horizontalPosition, bool isRevealed, bool isFlagged)
-            : base(field, verticalPosition, horizontalPosition, isRevealed, isFlagged)
+        public SafeCell(MineFieldState field, int verticalPosition, int horizontalPosition, bool isRevealed, bool isFlagged, int neighbourBombCount)
+            : base(field, verticalPosition, horizontalPosition, isRevealed, isFlagged, neighbourBombCount)
         {
             Type = CellType.SAFE;
         }
@@ -24,7 +24,7 @@ namespace MineField.Model.Cells
         {
             if (!IsRevealed)
             {
-                List<Cell> neighbourCells = Field.GetNeighbourCells(this).ToList();
+                List<Cell> neighbourCells = GetNeighbourCells().ToList();
                 NeighbourBombCount = neighbourCells.Where(cell => cell.IsBomb()).ToList().Count();
                 IsRevealed = true;
                 RegisterRevealedCell(firstPlayerClicked);

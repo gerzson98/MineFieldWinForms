@@ -13,9 +13,13 @@ namespace MineField.Model
         public Player FirstPlayer { get; private set; }
         public Player SecondPlayer { get; private set; }
         public bool FirstPlayerIsNext { get; private set; }
-        private int RevealedCells { get; set; }
+        public int RevealedCells { get; private set; }
         public MineFieldState(int boardSize, int bombCount)
         {
+            if (!LEGIT_BOARD_SIZES.Contains(boardSize))
+            {
+                throw new ArgumentException();
+            }
             BoardSize = boardSize;
             BombCount = bombCount;
             GameIsOver = false;
@@ -27,8 +31,12 @@ namespace MineField.Model
             FillWithCells();
             SpreadBombs();
         }
-        public MineFieldState(int boardSize, int bombCount, bool firstPlayerIsNext)
+        public MineFieldState(int boardSize, int bombCount, bool firstPlayerIsNext, int revealedCells)
         {
+            if (!LEGIT_BOARD_SIZES.Contains(boardSize))
+            {
+                throw new ArgumentException();
+            }
             BoardSize = boardSize;
             BombCount = bombCount;
             GameIsOver = false;
@@ -36,6 +44,7 @@ namespace MineField.Model
             SecondPlayer = new Player("Second player");
             FirstPlayerIsNext = firstPlayerIsNext;
             _cells = new Cell[boardSize, boardSize];
+            RevealedCells = revealedCells;
         }
 
         public bool ContainsPosition(int verticalPosition, int horizontalPosition)
@@ -60,45 +69,6 @@ namespace MineField.Model
             FirstPlayerIsNext = !whoClikced;
             IncrementRevealedCell();
             GameIsOver = GameEndedSuccessfully();
-        }
-
-        public List<Cell> GetNeighbourCells(Cell centerCell)
-        {
-            List<Cell> neighbourCells = new List<Cell>();
-            foreach (int verticalDifference in Enumerable.Range(-1, 3))
-            {
-                foreach (int horizontalDifference in Enumerable.Range(-1, 3))
-                {
-                    if (!(horizontalDifference == 0 && verticalDifference == 0))
-                    {
-                        int targetVertical = centerCell.VerticalPosition + verticalDifference;
-                        int targetHorizontal = centerCell.HorizontalPosition + horizontalDifference;
-                        if (
-                                ContainsPosition(targetVertical, targetHorizontal) &&
-                                !this[targetVertical, targetHorizontal].IsRevealed
-                            )
-                        {
-                            neighbourCells.Add(this[targetVertical, targetHorizontal]);
-                        }
-                    }
-                }
-            }
-            return neighbourCells;
-        }
-
-        public void UpdateNeighbourCountsAndevealedCells()
-        {
-            foreach (Cell cell in _cells)
-            {
-                if (cell.IsRevealed)
-                {
-                    cell.NeighbourBombCount = GetNeighbourCells(cell).ToList()
-                        .Where(cell => cell.IsBomb())
-                        .ToList()
-                        .Count();
-                    IncrementRevealedCell();
-                }
-            }
         }
 
         private void IncrementRevealedCell()

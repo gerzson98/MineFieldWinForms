@@ -17,8 +17,8 @@ namespace MineField.Model.Cells
 
         public override bool IsBomb() { return true; }
 
-        public Bomb(MineFieldState field, int verticalPosition, int horizontalPosition, bool isRevealed, bool isFlagged)
-            : base(field, verticalPosition, horizontalPosition, isRevealed, isFlagged)
+        public Bomb(MineFieldState field, int verticalPosition, int horizontalPosition, bool isRevealed, bool isFlagged, int neighbourBombCount)
+            : base(field, verticalPosition, horizontalPosition, isRevealed, isFlagged, neighbourBombCount)
         {
             Type = CellType.BOMB;
         }

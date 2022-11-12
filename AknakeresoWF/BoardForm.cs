@@ -15,6 +15,7 @@ namespace AknakeresoWF
             InitializeComponent();
             SetNextPlayerLabel();
             DrawMineField();
+            RerenderDisplay();
         }
 
         private void SetNextPlayerLabel()
