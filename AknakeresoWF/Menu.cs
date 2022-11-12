@@ -1,5 +1,4 @@
 ﻿using MineField.Model;
-using MineField.Model.Exceptions;
 using MineField.Persistence;
 
 namespace AknakeresoWF.Design
