@@ -4,11 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MineField.Model.Attributes
+namespace MineField.Persistence
 {
-    public enum CellType
+    public class MineFieldDataException : Exception
     {
-        BOMB,
-        SAFE,
+        public MineFieldDataException() { }
     }
 }

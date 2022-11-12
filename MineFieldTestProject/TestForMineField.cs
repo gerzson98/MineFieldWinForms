@@ -25,6 +25,7 @@ namespace MineFieldTestProject
                         actualBombCount++;
                     }
                     Assert.AreEqual(mineField[x, y].IsRevealed, false);
+                    Assert.AreEqual(mineField[x, y].IsFlagged, false);
                 }
             }
 

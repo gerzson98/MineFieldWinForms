@@ -1,5 +1,4 @@
 ﻿using MineField.Model.Cells;
-using MineField.Model.Entities;
 
 namespace MineField.Model
 {
@@ -9,7 +8,7 @@ namespace MineField.Model
         private Cell[,] _cells { get; set; }
         public bool GameIsOver { get; internal set; }
         public int BoardSize { get; private set; }
-        public int BombCount { get; private set; }
+        internal int BombCount { get; private set; }
         public Player FirstPlayer { get; private set; }
         public Player SecondPlayer { get; private set; }
         public bool FirstPlayerIsNext { get; private set; }

@@ -1,5 +1,4 @@
 ﻿using MineField.Model;
-using MineField.Model.Attributes;
 using MineField.Model.Cells;
 using MineField.Model.Exceptions;
 using System;

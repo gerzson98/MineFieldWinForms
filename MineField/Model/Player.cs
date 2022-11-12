@@ -1,4 +1,4 @@
-﻿namespace MineField.Model.Entities
+﻿namespace MineField.Model
 {
     public class Player
     {
