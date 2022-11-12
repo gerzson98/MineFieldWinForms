@@ -1,4 +1,5 @@
 ﻿using MineField.Model;
+using MineField.Model.Exceptions;
 using MineField.Persistence;
 
 namespace AknakeresoWF.Design
@@ -14,29 +15,41 @@ namespace AknakeresoWF.Design
 
         private async void button1_Click(object sender, EventArgs e)
         {
-            OpenFileDialog openFileDialog1 = new OpenFileDialog
+            try
             {
-                InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
-                Title = "Browse Text Files",
+                OpenFileDialog openFileDialog1 = new OpenFileDialog
+                {
+                    InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
+                    Title = "Browse Text Files",
 
-                CheckFileExists = true,
-                CheckPathExists = true,
+                    CheckFileExists = true,
+                    CheckPathExists = true,
 
-                DefaultExt = "txt",
-                Filter = "txt files (*.txt)|*.txt",
-                FilterIndex = 2,
-                RestoreDirectory = true,
+                    DefaultExt = "txt",
+                    Filter = "txt files (*.txt)|*.txt",
+                    FilterIndex = 2,
+                    RestoreDirectory = true,
 
-                ReadOnlyChecked = true,
-                ShowReadOnly = true
-            };
+                    ReadOnlyChecked = true,
+                    ShowReadOnly = true
+                };
 
-            if (openFileDialog1.ShowDialog() == DialogResult.OK)
+                if (openFileDialog1.ShowDialog() == DialogResult.OK)
+                {
+                    string fileName = openFileDialog1.FileName;
+                    MineFieldState loadedGame = await PersistenceApi.LoadGame(fileName);
+                    BoardForm boadForm = new BoardForm(loadedGame);
+                    boadForm.Show();
+                }
+            }
+            catch (MineFieldDataException _)
             {
-                string fileName = openFileDialog1.FileName;
-                MineFieldState loadedGame = await PersistenceApi.LoadGame(fileName);
-                BoardForm boadForm = new BoardForm(loadedGame);
-                boadForm.Show();
+                MessageBox.Show(
+                                    "You chose a file, that is not valid, returning to the Menu.",
+                                    "Not valid save!",
+                                    MessageBoxButtons.OK,
+                                    MessageBoxIcon.Warning
+                                );
             }
         }
 
