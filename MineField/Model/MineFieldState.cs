@@ -4,7 +4,7 @@ namespace MineField.Model
 {
     public class MineFieldState
     {
-        public static List<int> LEGIT_BOARD_SIZES = new List<int>() { 6, 10, 16 };
+        private List<int> LEGIT_BOARD_SIZES = new List<int>() { 6, 10, 16 };
         private Cell[,] _cells { get; set; }
         public bool GameIsOver { get; internal set; }
         public int BoardSize { get; private set; }

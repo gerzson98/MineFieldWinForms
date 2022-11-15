@@ -12,7 +12,7 @@ namespace MineField.Model.Cells
         public int VerticalPosition { get; private set; }
         public int HorizontalPosition { get; private set; }
         public bool IsFlagged { get; protected set; }
-        public int NeighbourBombCount { get; set; }
+        public int NeighbourBombCount { get; protected set; }
 
         public bool IsRevealed { get; protected set; }
         public CellType Type { get; protected set; }
