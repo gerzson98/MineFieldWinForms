@@ -57,8 +57,8 @@ namespace AknakeresoWF
                     {
                         clickedPixel.CellInfo.Reveal(Field.FirstPlayerIsNext);
                         RerenderDisplay();
-                        if (Field.GameIsOver)
-                        {
+                        //if (Field.GameIsOver)
+                        //{
                             if (Field.GameEndedSuccessfully())
                             {
 
@@ -85,7 +85,7 @@ namespace AknakeresoWF
                                 );
                                 Close();
                             }
-                        }
+                        //}
                     }
                     if (mouseEvent.Button == MouseButtons.Right)
                     {
