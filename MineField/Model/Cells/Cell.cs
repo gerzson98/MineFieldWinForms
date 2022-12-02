@@ -1,29 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace MineField.Model.Cells
+﻿namespace MineField.Model.Cells
 {
     public abstract class Cell
     {
         protected MineFieldState Field { get; set; }
         public int VerticalPosition { get; private set; }
         public int HorizontalPosition { get; private set; }
-        public bool IsFlagged { get; protected set; }
+        private bool _isFlagged;
+        public bool IsFlagged { get { return _isFlagged; } protected set { _isFlagged = value; RaiseCellDataChangedEvent(); } }
         public int NeighbourBombCount { get; protected set; }
-
-        public bool IsRevealed { get; protected set; }
+        private bool _isRevealed;
+        public bool IsRevealed { get { return _isRevealed; } protected set { _isRevealed = value; RaiseCellDataChangedEvent(); } }
         public CellType Type { get; protected set; }
+
 
         public Cell(MineFieldState field, int verticalPosition, int horizontalPosition)
         {
             Field = field;
             VerticalPosition = verticalPosition;
             HorizontalPosition = horizontalPosition;
-            IsRevealed = false;
-            IsFlagged = false;
+            _isRevealed = false;
+            _isFlagged = false;
             NeighbourBombCount = 0;
         }
 
@@ -32,8 +28,8 @@ namespace MineField.Model.Cells
             Field = field;
             VerticalPosition = verticalPosition;
             HorizontalPosition = horizontalPosition;
-            IsRevealed = isRevealed;
-            IsFlagged = isFlagged;
+            _isRevealed = isRevealed;
+            _isFlagged = isFlagged;
             NeighbourBombCount = neighbourBombCount;
         }
 
@@ -48,6 +44,8 @@ namespace MineField.Model.Cells
         {
             Field.RegisterRevealedCell(whoClicked);
         }
+
+        public event EventHandler? CellDataChanged;
 
         public List<Cell> GetNeighbourCells()
         {
@@ -76,6 +74,11 @@ namespace MineField.Model.Cells
         {
             int neighbourBombCount = GetNeighbourCells().Where(cell => cell.IsBomb()).ToList().Count();
             return $"{Type};{VerticalPosition},{HorizontalPosition};{IsRevealed};{IsFlagged};{neighbourBombCount}";
+        }
+
+        private void RaiseCellDataChangedEvent()
+        {
+            CellDataChanged?.Invoke(this, EventArgs.Empty);
         }
     }
 }

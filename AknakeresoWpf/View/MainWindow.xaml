@@ -1,0 +1,72 @@
+﻿<Window x:Class="AknakeresoWPF.View.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:AknakeresoWPF"
+        mc:Ignorable="d"
+        Title="MineDetector" Height="600" Width="600">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <Menu Grid.Row="0">
+            <MenuItem Header="File">
+                <MenuItem Header="LoadGame" Command="{Binding LoadGameCommand}" />
+                <MenuItem Header="SaveGame" Command="{Binding SaveGameCommand}" />
+                <Separator />
+                <MenuItem Header="New 6x6 game" Command="{Binding NewGameCommand}" CommandParameter="6"/>
+                <MenuItem Header="New 10x10 game" Command="{Binding NewGameCommand}" CommandParameter="10"/>
+                <MenuItem Header="New 16x16 game" Command="{Binding NewGameCommand}" CommandParameter="16"/>
+            </MenuItem>
+        </Menu>
+        <Label Grid.Row="1" Content="{Binding NextPlayerLabel}" />
+        <ItemsControl Grid.Row="2" ItemsSource="{Binding Fields}">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <UniformGrid Rows="{Binding GameSize}" Columns="{Binding GameSize}"/>
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Button Content="{Binding NeighbourBombCount}">
+                        <Button.InputBindings>
+                            <MouseBinding Gesture="LeftClick" Command="{Binding RevealCellCommand}" CommandParameter="{Binding ID}"/>
+                            <MouseBinding Gesture="RightClick" Command="{Binding FlagCellCommand}" CommandParameter="{Binding ID}"/>
+                        </Button.InputBindings>
+                        <Button.RenderTransform>
+                            <ScaleTransform ScaleX="1" ScaleY="1" />
+                        </Button.RenderTransform>
+                        <Button.Style>
+                            <Style TargetType="Button">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsRevealed}" Value="True">
+                                        <Setter Property="IsEnabled" Value="False" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding IsRevealed}" Value="False">
+                                        <Setter Property="IsEnabled" Value="True" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding IsFlagged}" Value="True">
+                                        <Setter Property="Background" Value="Red" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding IsFlagged}" Value="False">
+                                        <Setter Property="Background" Value="White" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+                    </Button>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+            <ItemsControl.ItemContainerStyle>
+                <Style>
+                    <Setter Property="Grid.Row" Value="{Binding VerticalCoordinate}" />
+                    <Setter Property="Grid.Column" Value="{Binding HorizontalCoordinate}" />
+                </Style>
+            </ItemsControl.ItemContainerStyle>
+        </ItemsControl>
+    </Grid>
+</Window>

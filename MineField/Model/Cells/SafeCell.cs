@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MineField.Model.MineFieldEventArgs;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -27,6 +28,7 @@ namespace MineField.Model.Cells
                 NeighbourBombCount = neighbourCells.Where(cell => cell.IsBomb()).ToList().Count();
                 IsRevealed = true;
                 RegisterRevealedCell(firstPlayerClicked);
+
                 if (NeighbourBombCount == 0)
                 {
                     neighbourCells.ForEach(cell => { if (!cell.IsRevealed) { cell.Reveal(firstPlayerClicked); } });

@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace MineField.Model.Cells
+﻿namespace MineField.Model.Cells
 {
     public class Bomb : Cell
     {
@@ -24,7 +18,7 @@ namespace MineField.Model.Cells
 
         override public void Reveal(bool firstPlayerClicked)
         {
-            Field.GameIsOver = true;
+            Field.InvokeGameOverOnDeath(firstPlayerClicked);
         }
     }
 }

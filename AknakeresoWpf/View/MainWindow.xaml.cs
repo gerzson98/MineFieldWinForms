@@ -1,5 +1,4 @@
-﻿using MineField.Model;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace AknakeresoWpf
+namespace AknakeresoWPF.View
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
@@ -24,12 +23,6 @@ namespace AknakeresoWpf
         public MainWindow()
         {
             InitializeComponent();
-        }
-
-        private void CreateNewSmall_Click(object sender, RoutedEventArgs e)
-        {
-            BoardDisplay boardDisplay = new BoardDisplay(new MineFieldState(6, 3));
-            boardDisplay.Show();
         }
     }
 }

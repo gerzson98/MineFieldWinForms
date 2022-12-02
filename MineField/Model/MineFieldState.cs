@@ -1,4 +1,5 @@
 ﻿using MineField.Model.Cells;
+using MineField.Model.MineFieldEventArgs;
 
 namespace MineField.Model
 {
@@ -6,7 +7,6 @@ namespace MineField.Model
     {
         private List<int> LEGIT_BOARD_SIZES = new List<int>() { 6, 10, 16 };
         private Cell[,] _cells { get; set; }
-        public bool GameIsOver { get; internal set; }
         public int BoardSize { get; private set; }
         internal int BombCount { get; private set; }
         public Player FirstPlayer { get; private set; }
@@ -21,7 +21,6 @@ namespace MineField.Model
             }
             BoardSize = boardSize;
             BombCount = bombCount;
-            GameIsOver = false;
             FirstPlayer = new Player("First player");
             SecondPlayer = new Player("Second player");
             FirstPlayerIsNext = true;
@@ -38,7 +37,6 @@ namespace MineField.Model
             }
             BoardSize = boardSize;
             BombCount = bombCount;
-            GameIsOver = false;
             FirstPlayer = new Player("First player");
             SecondPlayer = new Player("Second player");
             FirstPlayerIsNext = firstPlayerIsNext;
@@ -62,12 +60,21 @@ namespace MineField.Model
         {
             return (RevealedCells == (BoardSize * BoardSize - BombCount));
         }
+        public void InvokeGameOverOnDeath(bool firstPlayerLost)
+        {
+            EndingState playerFlag = firstPlayerLost ? EndingState.SecondPlayerWon : EndingState.FirstPlayerWon;
+            GameOver?.Invoke(this, new GameOverEventArgs(playerFlag));
+        }
+        public event EventHandler<GameOverEventArgs> GameOver = null!;
 
         public void RegisterRevealedCell(bool whoClikced)
         {
             FirstPlayerIsNext = !whoClikced;
             IncrementRevealedCell();
-            GameIsOver = GameEndedSuccessfully();
+            if (GameEndedSuccessfully())
+            {
+                GameOver?.Invoke(this, new GameOverEventArgs(EndingState.ItWasATie));
+            }
         }
 
         private void IncrementRevealedCell()
