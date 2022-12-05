@@ -25,11 +25,18 @@ namespace AknakeresoWPF.ViewModel
             _text = String.Empty;
             _cellToBind = cellToBind;
             _id = id;
-            _isBomb = false;
+            IsBomb = false;
 
             VerticalCoordinate = _cellToBind.VerticalPosition;
             HorizontalCoordinate = _cellToBind.HorizontalPosition;
             IsRevealed = _cellToBind.IsRevealed;
+            if (IsRevealed)
+            {
+                string newNeighbourBombCount = _cellToBind.NeighbourBombCount == 0 ?
+                    String.Empty :
+                    _cellToBind.NeighbourBombCount.ToString();
+                NeighbourBombCount = newNeighbourBombCount;
+            }
             IsFlagged = _cellToBind.IsFlagged;
 
             RevealCellCommand = revealCommand;

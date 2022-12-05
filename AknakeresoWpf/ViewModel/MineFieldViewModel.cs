@@ -1,6 +1,6 @@
 ﻿using MineField.Model;
 using MineField.Model.Cells;
-using MineField.Model.MineFieldEventArgs;
+using MineField.Persistence;
 using System;
 using System.Collections.ObjectModel;
 
@@ -12,8 +12,12 @@ namespace AknakeresoWPF.ViewModel
         private int _gameSize;
         private string _nextPlayerLabel = String.Empty;
         public DelegateCommand NewGameCommand { get; set; }
-
         public event EventHandler<NewGameEventArgs> NewGame = null!;
+        public DelegateCommand LoadGameCommand { get; set; }
+        public event EventHandler LoadGame = null!;
+        public DelegateCommand SaveGameCommand { get; set; }
+        public event EventHandler SaveGame = null!;
+
         public string NextPlayerLabel
         {
             get { return _nextPlayerLabel; }
@@ -33,11 +37,10 @@ namespace AknakeresoWPF.ViewModel
             GameSize = _mineFieldState.BoardSize;
             Fields = new ObservableCollection<MineCellViewModel>();
             NewGameCommand = new DelegateCommand(gameSizeString => { NewGame?.Invoke(this, new NewGameEventArgs(Convert.ToInt32(gameSizeString))); });
+            LoadGameCommand = new DelegateCommand(_ => { LoadGame?.Invoke(this, EventArgs.Empty); });
+            SaveGameCommand = new DelegateCommand(_ => { SaveGame?.Invoke(this, EventArgs.Empty); });
             BindFieldsFromModel();
         }
-
-        private void RaiseNewGameEvent(int gameSize)
-        { NewGame?.Invoke(this, new NewGameEventArgs(gameSize)); }
 
         private void BindFieldsFromModel()
         {

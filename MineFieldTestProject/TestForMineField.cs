@@ -1,5 +1,7 @@
 using MineField.Model;
 using MineField.Model.Cells;
+using MineField.Model.MineFieldEventArgs;
+using System.Linq;
 
 namespace MineFieldTestProject
 {
@@ -7,6 +9,8 @@ namespace MineFieldTestProject
     public class TestForMineField
     {
         private IEnumerable<Int32> helperRange = Enumerable.Range(0, 6);
+        private EndingState? GameOverCalledChecker = null;
+        private List<EndingState> BombTouchedEventStates = new List<EndingState>() { EndingState.FirstPlayerWon, EndingState.SecondPlayerWon };
 
         [TestMethod]
         public void MineField_BasicConstructTest_Done()
@@ -42,8 +46,9 @@ namespace MineFieldTestProject
         [TestMethod]
         public void MineFieldBombClickTest()
         {
-
+            GameOverCalledChecker = null;
             MineFieldState mineField = new MineFieldState(6, 12);
+            mineField.GameOver += OnGameOver;
             foreach (int x in helperRange)
             {
                 bool shouldBreak = false;
@@ -52,7 +57,9 @@ namespace MineFieldTestProject
                     if (mineField[x, y].IsBomb())
                     {
                         mineField[x, y].Reveal(true);
-                        Assert.AreEqual(mineField.GameIsOver, true);
+                        Assert.IsNotNull(GameOverCalledChecker);
+                        Assert.AreEqual(BombTouchedEventStates.Contains((EndingState)GameOverCalledChecker), true);
+
                         Assert.AreEqual(mineField.GameEndedSuccessfully(), false);
                         shouldBreak = true;
                         break;
@@ -65,8 +72,9 @@ namespace MineFieldTestProject
         [TestMethod]
         public void MineField_SuccessTest()
         {
-
+            GameOverCalledChecker = null;
             MineFieldState mineField = new MineFieldState(6, 4);
+            mineField.GameOver += OnGameOver;
             foreach (int x in helperRange)
             {
                 foreach (int y in helperRange)
@@ -77,8 +85,8 @@ namespace MineFieldTestProject
                     }
                 }
             }
-
-            Assert.AreEqual(mineField.GameIsOver, true);
+            Assert.IsNotNull(GameOverCalledChecker);
+            Assert.AreEqual(GameOverCalledChecker, EndingState.ItWasATie);
             Assert.AreEqual(mineField.GameEndedSuccessfully(), true);
         }
 
@@ -164,6 +172,11 @@ namespace MineFieldTestProject
                     }
                 }
             }
+        }
+
+        private void OnGameOver(object? s, GameOverEventArgs eventArgs)
+        {
+            GameOverCalledChecker = eventArgs.EndingState;
         }
     }
 }
