@@ -18,6 +18,7 @@
 
         override public void Reveal(bool firstPlayerClicked)
         {
+            IsRevealed = true;
             Field.InvokeGameOverOnDeath(firstPlayerClicked);
         }
     }

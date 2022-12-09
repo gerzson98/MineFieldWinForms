@@ -13,6 +13,7 @@ namespace MineField.Model
         public Player SecondPlayer { get; private set; }
         public bool FirstPlayerIsNext { get; private set; }
         public int RevealedCells { get; private set; }
+        public event EventHandler<GameOverEventArgs> GameOver = null!;
         public MineFieldState(int boardSize, int bombCount)
         {
             if (!LEGIT_BOARD_SIZES.Contains(boardSize))
@@ -65,7 +66,6 @@ namespace MineField.Model
             EndingState playerFlag = firstPlayerLost ? EndingState.SecondPlayerWon : EndingState.FirstPlayerWon;
             GameOver?.Invoke(this, new GameOverEventArgs(playerFlag));
         }
-        public event EventHandler<GameOverEventArgs> GameOver = null!;
 
         public void RegisterRevealedCell(bool whoClikced)
         {

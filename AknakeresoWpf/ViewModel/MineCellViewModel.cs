@@ -87,6 +87,10 @@ namespace AknakeresoWPF.ViewModel
             set
             {
                 _isRevealed = value;
+                if (value)
+                {
+                    IsBomb = _cellToBind.IsBomb();
+                }
                 OnPropertyChanged();
             }
         }

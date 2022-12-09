@@ -11,7 +11,7 @@
         private bool _isRevealed;
         public bool IsRevealed { get { return _isRevealed; } protected set { _isRevealed = value; RaiseCellDataChangedEvent(); } }
         public CellType Type { get; protected set; }
-
+        public event EventHandler? CellDataChanged;
 
         public Cell(MineFieldState field, int verticalPosition, int horizontalPosition)
         {
@@ -44,8 +44,6 @@
         {
             Field.RegisterRevealedCell(whoClicked);
         }
-
-        public event EventHandler? CellDataChanged;
 
         public List<Cell> GetNeighbourCells()
         {

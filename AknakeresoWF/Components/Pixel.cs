@@ -10,5 +10,10 @@ namespace AknakeresoWF.Design.Components
         {
             CellInfo = cellInfo;
         }
+
+        private void OnCellDataChanged(object? s, EventArgs e)
+        {
+
+        }
     }
 }

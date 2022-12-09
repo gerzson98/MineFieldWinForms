@@ -27,12 +27,13 @@ namespace MineField.Model.Cells
                 List<Cell> neighbourCells = GetNeighbourCells().ToList();
                 NeighbourBombCount = neighbourCells.Where(cell => cell.IsBomb()).ToList().Count();
                 IsRevealed = true;
-                RegisterRevealedCell(firstPlayerClicked);
 
                 if (NeighbourBombCount == 0)
                 {
                     neighbourCells.ForEach(cell => { if (!cell.IsRevealed) { cell.Reveal(firstPlayerClicked); } });
                 }
+
+                RegisterRevealedCell(firstPlayerClicked);
             }
         }
     }
