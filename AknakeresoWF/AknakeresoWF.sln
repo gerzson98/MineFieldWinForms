@@ -9,7 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MineFieldTestProject", "..\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MineField", "..\MineField\MineField.csproj", "{74E89D26-805F-47BB-ABE5-8579C54D7789}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AknakeresoWPF", "..\AknakeresoWPF\AknakeresoWPF.csproj", "{0D40A058-1B98-497E-96D7-F73BFEA51F85}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AknakeresoWPF", "..\AknakeresoWPF\AknakeresoWPF.csproj", "{0D40A058-1B98-497E-96D7-F73BFEA51F85}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MineFieldMaui", "..\MineFieldMaui\MineFieldMaui.csproj", "{EC94B515-37AF-4F05-8451-FF76791222CA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,12 @@ Global
 		{0D40A058-1B98-497E-96D7-F73BFEA51F85}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0D40A058-1B98-497E-96D7-F73BFEA51F85}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0D40A058-1B98-497E-96D7-F73BFEA51F85}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EC94B515-37AF-4F05-8451-FF76791222CA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EC94B515-37AF-4F05-8451-FF76791222CA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EC94B515-37AF-4F05-8451-FF76791222CA}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{EC94B515-37AF-4F05-8451-FF76791222CA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EC94B515-37AF-4F05-8451-FF76791222CA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EC94B515-37AF-4F05-8451-FF76791222CA}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
