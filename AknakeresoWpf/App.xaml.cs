@@ -5,7 +5,6 @@ using MineField.Model;
 using MineField.Model.MineFieldEventArgs;
 using MineField.Persistence;
 using System;
-using System.Threading.Tasks;
 using System.Windows;
 
 namespace AknakeresoWPF

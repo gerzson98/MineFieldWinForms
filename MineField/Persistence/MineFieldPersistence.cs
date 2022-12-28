@@ -2,6 +2,7 @@
 using MineField.Model.Cells;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,8 +11,15 @@ namespace MineField.Persistence
 {
     public class MineFieldPersistence
     {
+        private String? _basePath;
+
+        public MineFieldPersistence(String? basePath = null)
+        {
+            _basePath = basePath;
+        }
         public async Task SaveGame(string filePath, MineFieldState gameToSave)
         {
+            filePath = appendBasePathIfExists(filePath);
             try
             {
                 using (StreamWriter writer = new StreamWriter(filePath))
@@ -39,6 +47,7 @@ namespace MineField.Persistence
 
         public async Task<MineFieldState> LoadGame(string filePath)
         {
+            filePath = appendBasePathIfExists(filePath);
             try
             {
                 using (StreamReader reader = new StreamReader(filePath))
@@ -83,5 +92,7 @@ namespace MineField.Persistence
                 throw new MineFieldDataException();
             }
         }
+
+        private String appendBasePathIfExists(String filePath) => !String.IsNullOrEmpty(_basePath) ? Path.Combine(_basePath, filePath) : filePath;
     }
 }

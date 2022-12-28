@@ -6,7 +6,10 @@ using System.Threading.Tasks;
 
 namespace MineField.Model
 {
-    internal class GameDifficulty
+    public enum GameDifficulty
     {
+        SMALL = 6,
+        MEDIUM = 10,
+        LARGE = 16,
     }
 }
