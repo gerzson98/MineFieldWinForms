@@ -1,5 +1,6 @@
 ﻿using MineField.Model;
 using MineField.Persistence;
+using MineFieldMaui.Persistence;
 using MineFieldMaui.ViewModel;
 
 namespace MineFieldMaui
