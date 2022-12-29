@@ -2,6 +2,7 @@
 using MineField.Model.MineFieldEventArgs;
 using MineField.Model.Store;
 using MineField.Persistence;
+using MineFieldMaui.View;
 using MineFieldMaui.ViewModel;
 
 namespace MineFieldMaui
@@ -9,7 +10,7 @@ namespace MineFieldMaui
     public partial class AppShell : Shell
     {
 
-        #region Fields
+        #region Properties
 
         private MineFieldPersistence _mineFieldPersistence;
         private MineFieldState _mineFieldState;
@@ -24,7 +25,7 @@ namespace MineFieldMaui
 
         #endregion
 
-        #region Application methods
+        #region Construction
 
         public AppShell
             (
@@ -60,7 +61,7 @@ namespace MineFieldMaui
 
         #endregion
 
-        #region Model event handlers
+        #region EventHandlers
 
         /// <summary>
         ///     Játék végének eseménykezelője.
@@ -69,17 +70,25 @@ namespace MineFieldMaui
         {
                 await DisplayAlert(_gameName, CalculateEndingMessage(eventArgs.EndingState), _ok);
         }
-
-        #endregion
-
-        #region ViewModel event handlers
+        private string CalculateEndingMessage(EndingState endingState)
+        {
+            if (endingState == EndingState.ItWasATie)
+            {
+                return $"Congrats! You completed the game!{Environment.NewLine + Environment.NewLine}Would you like to start a new game?";
+            }
+            else if (endingState == EndingState.FirstPlayerWon)
+            {
+                return $"{_mineFieldState.FirstPlayer.Name} won the game!{Environment.NewLine + Environment.NewLine}Would you like to start a new game?";
+            }
+            return $"{_mineFieldState.SecondPlayer.Name} won the game!{Environment.NewLine + Environment.NewLine}Would you like to start a new game?";
+        }
 
         /// <summary>
         ///     Új játék indításának eseménykezelője.
         /// </summary>
-        private void MineFieldViewModel_NewGame(object? sender, EventArgs e)
+        private void MineFieldViewModel_NewGame(object? sender, NewGameEventArgs eventArgs)
         {
-            _mineFieldState = .NewGame();
+            _mineFieldState = new MineFieldState(eventArgs.GameSize, eventArgs.GameSize);
         }
 
         /// <summary>
@@ -154,20 +163,6 @@ namespace MineFieldMaui
             {
                 await DisplayAlert(_gameName, "Unsuccessful save.", _ok);
             }
-        }
-
-
-        private string CalculateEndingMessage(EndingState endingState)
-        {
-            if (endingState == EndingState.ItWasATie)
-            {
-                return $"Congrats! You completed the game!{Environment.NewLine + Environment.NewLine}Would you like to start a new game?";
-            }
-            else if (endingState == EndingState.FirstPlayerWon)
-            {
-                return $"{_mineFieldState.FirstPlayer.Name} won the game!{Environment.NewLine + Environment.NewLine}Would you like to start a new game?";
-            }
-            return $"{_mineFieldState.SecondPlayer.Name} won the game!{Environment.NewLine + Environment.NewLine}Would you like to start a new game?";
         }
 
         #endregion

@@ -14,6 +14,36 @@ namespace MineField.Model
         public bool FirstPlayerIsNext { get; private set; }
         public int RevealedCells { get; private set; }
         public event EventHandler<GameOverEventArgs> GameOver = null!;
+
+        public MineFieldState(GameDifficulty difficulty)
+        {
+            int gameSize;
+            switch(difficulty)
+            {
+                case GameDifficulty.SMALL:
+                    gameSize = 6;
+                    break;
+                case GameDifficulty.MEDIUM:
+                    gameSize = 10;
+                    break;
+                case GameDifficulty.LARGE:
+                    gameSize = 16;
+                    break;
+                default:
+                    throw new InvalidOperationException();
+
+            }
+            BoardSize = gameSize;
+            BombCount = gameSize;
+            FirstPlayer = new Player("First player");
+            SecondPlayer = new Player("Second player");
+            FirstPlayerIsNext = true;
+            _cells = new Cell[gameSize, gameSize];
+
+            FillWithCells();
+            SpreadBombs();
+        }
+
         public MineFieldState(int boardSize, int bombCount)
         {
             if (!LEGIT_BOARD_SIZES.Contains(boardSize))

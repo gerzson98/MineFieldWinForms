@@ -67,7 +67,6 @@ namespace MineFieldMaui
                 {
                     try
                     {
-                        // elmentjük a jelenleg folyó játékot
                         await _mineFieldPersistence.SaveGame(SuspendedGameSavePath, _mineFieldState);
                     }
                     catch
