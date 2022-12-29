@@ -3,15 +3,11 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="MineFieldMaui.View.SettingsPage"
              Title="Settings">
-    <StackLayout Orientation="Vertical" Spacing="8" Margin="4" HorizontalOptions="CenterAndExpand">
+    <StackLayout Orientation="Vertical" Spacing="10" Margin="4" HorizontalOptions="CenterAndExpand">
         <Button Command="{Binding LoadGameCommand}" Text="Load" />
         <Button Command="{Binding SaveGameCommand}" Text="Save" />
-
-        <Picker
-            Title="Pick the board's size:"
-            HorizontalTextAlignment="Center"
-            ItemsSource="{Binding DifficultyLevels}"
-            ItemDisplayBinding="{Binding DifficultyText}"
-            SelectedItem="{Binding Difficulty}" />
+        <Button Command="{Binding NewGameCommand}" CommandParameter="6" Text="New game [6x6]" />
+        <Button Command="{Binding NewGameCommand}" CommandParameter="10" Text="New game [10x10]" />
+        <Button Command="{Binding NewGameCommand}" CommandParameter="16" Text="New game [16x16]" />
     </StackLayout>
 </ContentPage>

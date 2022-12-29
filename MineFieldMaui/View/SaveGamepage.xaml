@@ -5,10 +5,9 @@
              Title="Save game">
     <StackLayout Orientation="Vertical" Spacing="8" Margin="4">
         <Entry x:Name="saveNameEntry" />
-        <Button Text="Mentés" Command="{Binding NewSaveCommand}"
+        <Button Text="Save" Command="{Binding NewSaveCommand}"
                 CommandParameter="{Binding Source={x:Reference saveNameEntry}, Path=Text}" />
 
-        <!-- a fájlnevet a beviteli mezőtől vesszük át -->
         <ListView ItemsSource="{Binding StoredGames}">
             <ListView.ItemTemplate>
                 <DataTemplate>

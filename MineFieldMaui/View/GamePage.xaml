@@ -11,8 +11,8 @@
         </Grid.RowDefinitions>
 
         <!-- a gombokat a képernyő tetejére helyezzük -->
-        <Button Text="Új játék" Command="{Binding NewGameCommand}" Grid.Row="0" HorizontalOptions="Start" />
-        <Button Text="Beállítások" Command="{Binding ExitCommand}" Grid.Row="0" HorizontalOptions="End" />
+        <Button Text="Restart" Command="{Binding RestartGameCommand}" Grid.Row="0" HorizontalOptions="Start" />
+        <Button Text="Settings" Command="{Binding SettingsCommand}" Grid.Row="0" HorizontalOptions="End" />
 
         <Grid
             Grid.Row="1"
@@ -26,12 +26,12 @@
                 <DataTemplate>
                     <!-- a rács elemei gombok lesznek -->
                     <Button
-                        Grid.Row="{Binding Y}"
-                        Grid.Column="{Binding X}"
-                        Command="{Binding StepCommand}"
-                        CommandParameter="{Binding Number}"
-                        Text="{Binding Text}"
-                        IsEnabled="{Binding IsEnabled}"
+                        Grid.Row="{Binding VerticalCoordinate}"
+                        Grid.Column="{Binding HorizontalCoordinate}"
+                        Command="{Binding RevealCellCommand}"
+                        CommandParameter="{Binding ID}"
+                        Text="{Binding NeighbourBombCount}"
+                        IsEnabled="{Binding IsClickable}"
                         Padding="0"
                         FontAttributes="Bold"
                         FontSize="Medium"
@@ -42,13 +42,8 @@
         </Grid>
 
         <!-- az információkat alul írjuk ki -->
-        <StackLayout Orientation="Horizontal" HorizontalOptions="Start" Grid.Row="2">
-            <Label Text="Lépésszám: " />
-            <Label Text="{Binding GameStepCount}" />
-        </StackLayout>
-        <StackLayout Orientation="Horizontal" HorizontalOptions="End" Grid.Row="2">
-            <Label Text="Játékidő: " />
-            <Label Text="{Binding GameTime}" />
+        <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Grid.Row="2">
+            <Label Text="{Binding NextPlayerLabel}" />
         </StackLayout>
     </Grid>
 </ContentPage>

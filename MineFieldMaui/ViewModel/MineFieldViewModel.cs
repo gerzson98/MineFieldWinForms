@@ -10,6 +10,8 @@ namespace MineFieldMaui.ViewModel
 
         #region DelegateCommands
         public DelegateCommand NewGameCommand { get; set; }
+        public DelegateCommand RestartGameCommand { get; set; }
+        public DelegateCommand SettingsCommand { get; set; }
         public DelegateCommand LoadGameCommand { get; set; }
         public DelegateCommand SaveGameCommand { get; set; }
         #endregion
@@ -17,6 +19,8 @@ namespace MineFieldMaui.ViewModel
         #region EventHandlers
         public event EventHandler SaveGame = null!;
         public event EventHandler LoadGame = null!;
+        public event EventHandler Settings = null!;
+        public event EventHandler RestartGame = null!;
         public event EventHandler<NewGameEventArgs> NewGame = null!;
         #endregion
 
@@ -86,6 +90,10 @@ namespace MineFieldMaui.ViewModel
 
         #region EventForwardThrowers
 
+        private void OnRestartGame()
+        {
+            RestartGame?.Invoke(this, EventArgs.Empty);
+        }
         private void OnLoadGame()
         {
             LoadGame?.Invoke(this, EventArgs.Empty);
@@ -96,19 +104,21 @@ namespace MineFieldMaui.ViewModel
             SaveGame?.Invoke(this, EventArgs.Empty);
         }
 
-        //private void OnExitGame()
-        //{
-        //    ExitGame?.Invoke(this, EventArgs.Empty);
-        //}
+        private void OnSettings()
+        {
+            Settings?.Invoke(this, EventArgs.Empty);
+        }
         #endregion
 
         #region Construction
         public MineFieldViewModel(MineFieldState mineFieldState) : base()
         {
-            GameSize = _mineFieldState.BoardSize;
+            InitializeWithNewModel(mineFieldState);
             NewGameCommand = new DelegateCommand(gameSizeString => { NewGame?.Invoke(this, new NewGameEventArgs(Convert.ToInt32(gameSizeString))); });
             LoadGameCommand = new DelegateCommand(_ => OnLoadGame());
             SaveGameCommand = new DelegateCommand(_ => OnSaveGame());
+            SettingsCommand = new DelegateCommand(_ => OnSettings());
+            RestartGameCommand = new DelegateCommand(_ => OnRestartGame());
             DifficultyLevels = new ObservableCollection<GameDifficultyViewModel>
             {
                 new GameDifficultyViewModel { Difficulty = GameDifficulty.SMALL },
@@ -116,13 +126,13 @@ namespace MineFieldMaui.ViewModel
                 new GameDifficultyViewModel { Difficulty = GameDifficulty.LARGE }
             };
 
-            InitializeWithNewModel(mineFieldState);
         }
 
         private void InitializeWithNewModel(MineFieldState newModel)
         {
             _mineFieldState = newModel;
             Fields = new ObservableCollection<MineCellViewModel>();
+            GameSize = newModel.BoardSize;
             NextPlayerLabel = CalculateNextPlayerLabel();
             BindFieldsFromModel();
         }

@@ -5,6 +5,7 @@ namespace MineFieldMaui.ViewModel
     public class MineCellViewModel : ViewModelBase
     {
         private int _verticalCoordinate;
+        private bool _isClickable;
         private int _horizontalCoordinate;
         private int _id;
         private bool _isRevealed;
@@ -25,6 +26,7 @@ namespace MineFieldMaui.ViewModel
             VerticalCoordinate = _cellToBind.VerticalPosition;
             HorizontalCoordinate = _cellToBind.HorizontalPosition;
             IsRevealed = _cellToBind.IsRevealed;
+            _isClickable = !IsRevealed;
             if (IsRevealed)
             {
                 string newNeighbourBombCount = _cellToBind.NeighbourBombCount == 0 ?
@@ -84,8 +86,19 @@ namespace MineFieldMaui.ViewModel
                 _isRevealed = value;
                 if (value)
                 {
+                    IsClickable = false;
                     IsBomb = _cellToBind.IsBomb();
                 }
+                OnPropertyChanged();
+            }
+        }
+
+        public bool IsClickable
+        {
+            get { return _isClickable; }
+            set
+            {
+                _isClickable = value;
                 OnPropertyChanged();
             }
         }

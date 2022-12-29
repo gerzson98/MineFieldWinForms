@@ -7,6 +7,7 @@ namespace MineFieldMaui
 {
     public partial class App : Application
     {
+        #region Properties
         /// <summary>
         /// Erre az útvonalra mentjük a félbehagyott játékokat
         /// </summary>
@@ -16,8 +17,10 @@ namespace MineFieldMaui
         private readonly AppShell _appShell;
         private readonly MineFieldPersistence _mineFieldPersistence;
         private readonly IStore _mineFieldStore;
-        private readonly MineFieldViewModel _mineFieldViewModel;
+        private MineFieldViewModel _mineFieldViewModel;
+        #endregion
 
+        #region Construction
         public App()
         {
             InitializeComponent();
@@ -54,6 +57,7 @@ namespace MineFieldMaui
                     try
                     {
                         _mineFieldState = await _mineFieldPersistence.LoadGame(SuspendedGameSavePath);
+                        _mineFieldViewModel = new MineFieldViewModel(_mineFieldState);
                     }
                     catch
                     {
@@ -77,5 +81,6 @@ namespace MineFieldMaui
 
             return window;
         }
+        #endregion
     }
 }
