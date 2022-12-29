@@ -48,7 +48,14 @@ namespace MineFieldMaui.ViewModel
             if (IsRevealed)
             {
                 IsBomb = _cellToBind.IsBomb();
-                NeighbourBombCount = _cellToBind.NeighbourBombCount == 0 ? String.Empty : _cellToBind.NeighbourBombCount.ToString();
+                if (IsBomb)
+                {
+                    NeighbourBombCount = "B";
+                }
+                else
+                {
+                    NeighbourBombCount = _cellToBind.NeighbourBombCount == 0 ? String.Empty : _cellToBind.NeighbourBombCount.ToString();
+                }
             }
             else
             {

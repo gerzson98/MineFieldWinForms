@@ -46,22 +46,6 @@ namespace MineFieldMaui.ViewModel
         }
         #endregion
 
-        #region Difficulty
-        private GameDifficultyViewModel _difficulty = null!;
-        public ObservableCollection<GameDifficultyViewModel> DifficultyLevels { get; set; }
-        public GameDifficultyViewModel Difficulty
-        {
-            get => _difficulty;
-            set
-            {
-                _difficulty = value;
-                InitializeWithNewModel(new MineFieldState(Difficulty.Difficulty));
-                OnPropertyChanged();
-            }
-        }
-
-        #endregion
-
         #region GameDisplay
         public ObservableCollection<MineCellViewModel> Fields { get; set; }
         private int _gameSize;
@@ -113,28 +97,16 @@ namespace MineFieldMaui.ViewModel
         #region Construction
         public MineFieldViewModel(MineFieldState mineFieldState) : base()
         {
-            InitializeWithNewModel(mineFieldState);
+            _mineFieldState = mineFieldState;
+            Fields = new ObservableCollection<MineCellViewModel>();
+            GameSize = _mineFieldState.BoardSize;
+            NextPlayerLabel = CalculateNextPlayerLabel();
+            BindFieldsFromModel();
             NewGameCommand = new DelegateCommand(gameSizeString => { NewGame?.Invoke(this, new NewGameEventArgs(Convert.ToInt32(gameSizeString))); });
             LoadGameCommand = new DelegateCommand(_ => OnLoadGame());
             SaveGameCommand = new DelegateCommand(_ => OnSaveGame());
             SettingsCommand = new DelegateCommand(_ => OnSettings());
             RestartGameCommand = new DelegateCommand(_ => OnRestartGame());
-            DifficultyLevels = new ObservableCollection<GameDifficultyViewModel>
-            {
-                new GameDifficultyViewModel { Difficulty = GameDifficulty.SMALL },
-                new GameDifficultyViewModel { Difficulty = GameDifficulty.MEDIUM },
-                new GameDifficultyViewModel { Difficulty = GameDifficulty.LARGE }
-            };
-
-        }
-
-        private void InitializeWithNewModel(MineFieldState newModel)
-        {
-            _mineFieldState = newModel;
-            Fields = new ObservableCollection<MineCellViewModel>();
-            GameSize = newModel.BoardSize;
-            NextPlayerLabel = CalculateNextPlayerLabel();
-            BindFieldsFromModel();
         }
 
         private void BindFieldsFromModel()
@@ -171,20 +143,5 @@ namespace MineFieldMaui.ViewModel
             _mineFieldState[cellView.VerticalCoordinate, cellView.HorizontalCoordinate].FlipFlagState();
         }
         #endregion
-
-        private int getGameSizeFromDifficulty(GameDifficulty difficulty)
-        {
-            switch (difficulty)
-            {
-                case GameDifficulty.SMALL:
-                    return 6;
-                case GameDifficulty.MEDIUM:
-                    return 10;
-                case GameDifficulty.LARGE:
-                    return 16;
-                default:
-                    throw new InvalidOperationException();
-            }
-        }
     }
 }
